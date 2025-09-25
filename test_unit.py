@@ -1,8 +1,8 @@
 import pytest
-from datetime import datetime
-from models import UserCreate, PostCreate, CommentCreate, User
-from auth import get_password_hash, verify_password, create_access_token
+from models import UserCreate, PostCreate
+from auth import get_password_hash, verify_password
 import database
+
 
 @pytest.fixture(autouse=True)
 def clear_database():
@@ -11,6 +11,7 @@ def clear_database():
     database.comments_db.clear()
     database.votes_db.clear()
     yield
+
 
 class TestPasswordHashing:
     def test_password_hashing_and_verification(self):
@@ -31,6 +32,7 @@ class TestPasswordHashing:
         assert hash1 != hash2
         assert verify_password(password, hash1) is True
         assert verify_password(password, hash2) is True
+
 
 class TestUserCreation:
     def test_create_user_success(self):
@@ -62,6 +64,7 @@ class TestUserCreation:
 
         with pytest.raises(ValueError, match="Username already exists"):
             database.create_user(user_data)
+
 
 class TestVotingLogic:
     def setup_method(self):
