@@ -1,5 +1,5 @@
 from typing import Optional, List, Dict
-from datetime import datetime
+from datetime import datetime, timezone
 import uuid
 from models import User, UserInDB, UserCreate, Post, PostCreate, Comment, CommentCreate, Vote
 from auth import get_password_hash
@@ -42,7 +42,7 @@ def create_user(user: UserCreate) -> User:
         username=user.username,
         email=user.email,
         hashed_password=hashed_password,
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
         karma=0,
         is_active=True
     )
@@ -60,7 +60,7 @@ def create_post(post: PostCreate, author: User) -> Post:
         url=post.url,
         author_id=author.id,
         author_username=author.username,
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
         upvotes=0,
         downvotes=0,
         score=0,
@@ -109,7 +109,7 @@ def create_comment(comment: CommentCreate, author: User) -> Comment:
         parent_comment_id=comment.parent_comment_id,
         author_id=author.id,
         author_username=author.username,
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
         upvotes=0,
         downvotes=0,
         score=0,
@@ -151,7 +151,7 @@ def vote_on_post(post_id: str, user: User, is_upvote: bool) -> Optional[Post]:
             user_id=user.id,
             post_id=post_id,
             is_upvote=is_upvote,
-            created_at=datetime.utcnow()
+            created_at=datetime.now(timezone.utc)
         )
         votes_db[vote_id] = vote
 
@@ -186,7 +186,7 @@ def vote_on_comment(comment_id: str, user: User, is_upvote: bool) -> Optional[Co
             user_id=user.id,
             comment_id=comment_id,
             is_upvote=is_upvote,
-            created_at=datetime.utcnow()
+            created_at=datetime.now(timezone.utc)
         )
         votes_db[vote_id] = vote
 
