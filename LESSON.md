@@ -47,22 +47,25 @@ We're using a Reddit-like FastAPI application as our learning vehicle:
   - [ ] Linking issues to PRs
 
 ### Phase 3: Continuous Integration (CI)
-- [ ] **Lesson 3.1**: GitHub Actions Basics
-  - [ ] Create your first workflow
-  - [ ] Understand YAML syntax
-  - [ ] Set up basic Python CI
-- [ ] **Lesson 3.2**: Automated Testing
-  - [ ] Run pytest in CI
-  - [ ] Generate test coverage reports
-  - [ ] Fail builds on test failures
-- [ ] **Lesson 3.3**: Code Quality Checks
-  - [ ] Add linting (flake8, black)
-  - [ ] Type checking with mypy
-  - [ ] Security scanning
-- [ ] **Lesson 3.4**: Multi-environment Testing
-  - [ ] Test on multiple Python versions
-  - [ ] Matrix builds
-  - [ ] Conditional workflows
+- [x] **Lesson 3.1**: GitHub Actions Basics ✅ **COMPLETED**
+  - [x] Create your first workflow (`.github/workflows/ci.yml`)
+  - [x] Understand YAML syntax and workflow structure
+  - [x] Set up basic Python CI with matrix testing
+  - [x] Added automated testing with pytest
+  - [x] Implemented code quality checks (flake8, black, mypy)
+  - [x] Set up test coverage reporting
+- [ ] **Lesson 3.2**: Advanced Testing Features
+  - [ ] Test result reporting and artifacts
+  - [ ] Coverage thresholds and enforcement
+  - [ ] Parallel test execution
+- [ ] **Lesson 3.3**: Code Quality Enforcement
+  - [ ] Security scanning with bandit
+  - [ ] Dependency vulnerability checks
+  - [ ] License compliance checking
+- [ ] **Lesson 3.4**: Performance and Optimization
+  - [ ] Workflow caching strategies
+  - [ ] Conditional job execution
+  - [ ] Build time optimization
 
 ### Phase 4: Advanced CI/CD Patterns
 - [ ] **Lesson 4.1**: Deployment Automation
@@ -173,3 +176,71 @@ We're using a Reddit-like FastAPI application as our learning vehicle:
 4. Gradually work through each phase
 
 Remember: **Learning CI/CD is about building good habits and understanding automation patterns. Take your time and practice each concept thoroughly!**
+
+---
+
+## 📝 Detailed Lesson Notes
+
+### ✅ Lesson 3.1: GitHub Actions Basics - COMPLETED
+
+#### What We Built:
+Created a comprehensive CI pipeline in `.github/workflows/ci.yml` that:
+
+1. **Triggers**: Runs on push to main, pull requests, and manual dispatch
+2. **Matrix Testing**: Tests on Python 3.9, 3.10, and 3.11
+3. **Dependency Caching**: Speeds up builds by caching pip dependencies
+4. **Code Quality**: Runs flake8, black, and mypy checks
+5. **Testing**: Executes pytest with coverage reporting
+6. **Artifacts**: Uploads test coverage reports
+
+#### Key GitHub Actions Concepts Learned:
+
+**Workflow Structure:**
+```yaml
+name: CI Pipeline           # Workflow name (appears in GitHub UI)
+on: [triggers]             # When to run
+jobs:                      # What to run
+  job_name:
+    runs-on: ubuntu-latest # Where to run
+    steps: [...]           # How to run
+```
+
+**Matrix Strategy:**
+```yaml
+strategy:
+  matrix:
+    python-version: [3.9, 3.10, 3.11]
+```
+This creates 3 parallel jobs, one for each Python version!
+
+**Caching for Performance:**
+```yaml
+- uses: actions/cache@v3
+  with:
+    path: ~/.cache/pip
+    key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+```
+
+#### Configuration Files Created:
+- `.flake8`: Linting rules and exclusions
+- `pyproject.toml`: Black formatting and pytest configuration
+- Updated `requirements.txt`: Added dev dependencies
+
+#### GitHub Actions Features Used:
+- **actions/checkout@v4**: Gets your code
+- **actions/setup-python@v4**: Sets up Python environment
+- **actions/cache@v3**: Caches dependencies
+- **actions/upload-artifact@v3**: Saves test reports
+
+#### What Happens When CI Runs:
+1. Code is checked out from repository
+2. Python environment is set up
+3. Dependencies are installed (with caching)
+4. Code quality checks run (flake8, black, mypy)
+5. Tests execute with coverage
+6. Results are uploaded as artifacts
+
+#### Next Steps:
+- Commit and push to trigger first CI run
+- Watch the Actions tab in GitHub
+- Fix any issues that arise
